@@ -18,16 +18,24 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "prettier:check": "prettier-check --single-quote --trailing-comma=all {middleware,routes,shopStore}{/*,/**/*}.{js}",
-    "prettier:fix": "prettier --single-quote --trailing-comma=all --write {middleware,routes,shopStore}{/*,/**/*}.{js}",
-    "precommit": "lint-staged",
+    "lint": "eslint {middleware,routes,strategies,tests}{/*,/**/*}.js",
+    "lint:fix": "yarn run lint --fix",
+    "pretty": "prettier -c {middleware,routes,strategies,tests}{/*,/**/*}.js",
+    "pretty:fix": "yarn run pretty --write",
     "test": "jest",
     "test:ci": "jest --ci"
   },
   "lint-staged": {
-    "*.{js}": [
-      "prettier:check"
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -46,11 +54,12 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "find-free-port": "^2.0.0",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
-    "prettier": "^1.19.1",
-    "prettier-check": "^2.0.0"
+    "prettier": "^1.19.1"
   }
 }

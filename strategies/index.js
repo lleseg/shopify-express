@@ -6,4 +6,4 @@ module.exports = {
   RedisStrategy,
   MemoryStrategy,
   SQLStrategy,
-}
+};

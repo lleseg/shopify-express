@@ -1,4 +1,4 @@
-const findFreePort = require('find-free-port')
+const findFreePort = require('find-free-port');
 const express = require('express');
 const http = require('http');
 const fetch = require.requireActual('node-fetch');
@@ -57,7 +57,6 @@ describe('shopifyApiProxy', async () => {
     expect(response.status).toBe(401);
   });
 
-
   it('proxies requests to the shop given in session', async () => {
     const shop = 'some-shop.com';
     const endpoint = '/products';
@@ -89,7 +88,7 @@ describe('shopifyApiProxy', async () => {
   });
 
   it('does not proxy requests to dissallowed urls', async () => {
-    for(const url of DISALLOWED_URLS) {
+    for (const url of DISALLOWED_URLS) {
       response = await fetch(`${BASE_URL}${API_ROUTE}${url}`);
       expect(response.status).toBe(403);
     }
@@ -98,7 +97,7 @@ describe('shopifyApiProxy', async () => {
   it('returns body from proxied request', async () => {
     const expectedBody = 'body text';
     fetchMock.mockImplementation(() => {
-      return {status: 200, text: () => Promise.resolve(expectedBody)};
+      return { status: 200, text: () => Promise.resolve(expectedBody) };
     });
 
     const response = await fetch(`${BASE_URL}${API_ROUTE}`);
@@ -118,7 +117,7 @@ function createServer() {
       req.session = session;
       next();
     },
-    shopifyApiProxy
+    shopifyApiProxy,
   );
 
   server = http.createServer(app);
@@ -129,6 +128,6 @@ function createServer() {
         throw err;
       }
       server.listen(PORT, resolve(server));
-    })
+    });
   });
 }
