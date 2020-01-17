@@ -4,9 +4,9 @@ module.exports = class MemoryStrategy {
   }
 
   async storeShop({ shop, accessToken }) {
-    this.store[shop] = {accessToken};
+    this.store[shop] = { accessToken };
 
-    return {accessToken};
+    return { accessToken };
   }
 
   async getShop({ shop }) {

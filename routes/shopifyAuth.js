@@ -2,7 +2,7 @@ const querystring = require('querystring');
 const crypto = require('crypto');
 const fetch = require('node-fetch');
 
-const {TEST_COOKIE_NAME, TOP_LEVEL_OAUTH_COOKIE_NAME} = require('../constants');
+const { TEST_COOKIE_NAME, TOP_LEVEL_OAUTH_COOKIE_NAME } = require('../constants');
 
 module.exports = function createShopifyAuthRoutes({
   host,
@@ -26,7 +26,10 @@ module.exports = function createShopifyAuthRoutes({
       if (!request.cookies[TEST_COOKIE_NAME]) {
         // This is to avoid a redirect loop if the app doesn't use verifyRequest or set the test cookie elsewhere.
         response.cookie(TEST_COOKIE_NAME, '1');
-        topLevelRedirect(response, `${host}${baseUrl}/enable_cookies?${querystring.stringify({shop})}`);
+        topLevelRedirect(
+          response,
+          `${host}${baseUrl}/enable_cookies?${querystring.stringify({ shop })}`,
+        );
         return;
       }
 
@@ -97,7 +100,7 @@ module.exports = function createShopifyAuthRoutes({
       const accessToken = responseBody.access_token;
 
       try {
-        const {token} = await shopStore.storeShop({ accessToken, shop })
+        const { token } = await shopStore.storeShop({ accessToken, shop });
 
         if (request.session) {
           request.session.accessToken = accessToken;
@@ -115,9 +118,10 @@ module.exports = function createShopifyAuthRoutes({
 
     enableCookies(request, response) {
       const HEADING = 'Enable cookies';
-      const BODY = 'You must manually enable cookies in this browser in order to use this app within Shopify.'
+      const BODY =
+        'You must manually enable cookies in this browser in order to use this app within Shopify.';
       const FOOTER = `Cookies let the app authenticate you by temporarily storing your preferences and personal
-information. They expire after 30 days.`
+information. They expire after 30 days.`;
       const ACTION = 'Enable cookies';
 
       const { query, baseUrl } = request;
@@ -542,7 +546,7 @@ information. They expire after 30 days.`
   </main>
 </body>
 </html>`);
-    }
+    },
   };
 };
 

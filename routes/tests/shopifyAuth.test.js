@@ -1,21 +1,21 @@
-const findFreePort = require('find-free-port')
+const findFreePort = require('find-free-port');
 const fetch = require('node-fetch');
 const http = require('http');
 const express = require('express');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 const { MemoryStrategy } = require('../../strategies');
 const createShopifyAuthRoutes = require('../shopifyAuth');
 
 const PORT = 3000;
-const BASE_URL = `http://localhost:${PORT}`
+const BASE_URL = `http://localhost:${PORT}`;
 
 let server;
 let afterAuth;
 describe('shopifyAuth', async () => {
   beforeEach(async () => {
     afterAuth = jest.fn();
-    server = await createServer({afterAuth});
+    server = await createServer({ afterAuth });
   });
 
   afterEach(() => {
@@ -29,14 +29,16 @@ describe('shopifyAuth', async () => {
         const data = await response.text();
 
         expect(response.status).toBe(200);
-        expect(data).toContain(`window.top.location.href = "${BASE_URL}/auth/enable_cookies?shop=shop1"`);
+        expect(data).toContain(
+          `window.top.location.href = "${BASE_URL}/auth/enable_cookies?shop=shop1"`,
+        );
       });
     });
 
     describe('with cookie access but without a prior top-level attempt', () => {
       it('responds to get requests by returning a redirect page', async () => {
-        const headers = {cookie: 'shopifyTestCookie=1;'};
-        const response = await fetch(`${BASE_URL}/auth?shop=shop1`, {headers});
+        const headers = { cookie: 'shopifyTestCookie=1;' };
+        const response = await fetch(`${BASE_URL}/auth?shop=shop1`, { headers });
         const data = await response.text();
 
         expect(response.status).toBe(200);
@@ -45,10 +47,10 @@ describe('shopifyAuth', async () => {
 
       it('redirect page includes per-user grant for accessMode: online', async () => {
         await server.close();
-        server = await createServer({accessMode: 'online'});
+        server = await createServer({ accessMode: 'online' });
 
-        const headers = {cookie: 'shopifyTestCookie=1;'};
-        const response = await fetch(`${BASE_URL}/auth?shop=shop1`, {headers});
+        const headers = { cookie: 'shopifyTestCookie=1;' };
+        const response = await fetch(`${BASE_URL}/auth?shop=shop1`, { headers });
         const data = await response.text();
 
         expect(response.status).toBe(200);
@@ -58,8 +60,11 @@ describe('shopifyAuth', async () => {
 
     describe('with cookie access and a prior top-level attempt', () => {
       it('redirects directly to the grant page and removes top-level cookie', async () => {
-        const headers = {cookie: 'shopifyTestCookie=1; shopifyTopLevelOAuth=1;'};
-        const response = await fetch(`${BASE_URL}/auth?shop=shop1`, {headers, redirect: 'manual'});
+        const headers = { cookie: 'shopifyTestCookie=1; shopifyTopLevelOAuth=1;' };
+        const response = await fetch(`${BASE_URL}/auth?shop=shop1`, {
+          headers,
+          redirect: 'manual',
+        });
         const data = await response.text();
 
         expect(response.status).toBe(302);
@@ -109,7 +114,7 @@ function createServer(userConfig = {}) {
     afterAuth: jest.fn(),
   };
 
-  const {auth, callback} = createShopifyAuthRoutes(Object.assign({}, serverConfig, userConfig));
+  const { auth, callback } = createShopifyAuthRoutes(Object.assign({}, serverConfig, userConfig));
 
   app.use('/auth', cookieParser(), auth);
   app.use('/auth/callback', callback);
@@ -121,6 +126,6 @@ function createServer(userConfig = {}) {
         throw err;
       }
       server.listen(PORT, resolve(server));
-    })
+    });
   });
 }
