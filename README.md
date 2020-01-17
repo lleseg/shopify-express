@@ -1,13 +1,3 @@
-## Deprecation
-
-:exclamation: **This project is deprecated**. This means Shopify will not be maintaining it going forward. If you are interested in building a Shopify app using first party tools then check out our other libraries:
-
-- [@shopify/koa-shopify-auth](https://github.com/Shopify/quilt/tree/master/packages/koa-shopify-auth)
-- [@shopify/koa-shopify-graphql-proxy](https://github.com/Shopify/quilt/blob/master/packages/koa-shopify-graphql-proxy/README.md)
-- [shopify_app](https://github.com/Shopify/shopify_app)
-
-These are all used internally and written against technologies we use for our own applications. Of course, if you wish to continue using Express, feel free to fork this codebase and continue it as you wish.
-
 # shopify-express
 
 A small set of abstractions that will help you quickly build an Express.js app that consumes the Shopify API.
@@ -16,7 +6,7 @@ A small set of abstractions that will help you quickly build an Express.js app t
 
 ```javascript
 const express = require('express');
-const shopifyExpress = require('@shopify/shopify-express');
+const shopifyExpress = require('@lleseg/shopify-express');
 const session = require('express-session');
 
 const app = express();
@@ -79,8 +69,8 @@ By default the package comes with `MemoryStrategy` and `RedisStrategy`. If none 
 Simple javascript object based memory store for development purposes. Do not use this in production!
 
 ```javascript
-const shopifyExpress = require('@shopify/shopify-express');
-const { MemoryStrategy } = require('@shopify/shopify-express/strategies');
+const shopifyExpress = require('@lleseg/shopify-express');
+const { MemoryStrategy } = require('@lleseg/shopify-express/strategies');
 
 const shopify = shopifyExpress({
   shopStore: new MemoryStrategy(redisConfig),
@@ -93,8 +83,8 @@ const shopify = shopifyExpress({
 Uses [redis](https://www.npmjs.com/package/redis) under the hood, so you can pass it any configuration that's valid for the library.
 
 ```javascript
-const shopifyExpress = require('@shopify/shopify-express');
-const { RedisStrategy } = require('@shopify/shopify-express/strategies');
+const shopifyExpress = require('@lleseg/shopify-express');
+const { RedisStrategy } = require('@lleseg/shopify-express/strategies');
 
 const redisConfig = {
   // your config here
@@ -176,4 +166,4 @@ app.use('/', shopifyExpress.routes);
 
 ## Contributing
 
-Contributions are welcome. Please refer to the [contributing guide](https://github.com/Shopify/shopify-express/blob/master/CONTRIBUTING.md) for more details.
+Contributions are welcome. Please refer to the [contributing guide](https://github.com/lleseg/shopify-express/blob/master/CONTRIBUTING.md) for more details.
