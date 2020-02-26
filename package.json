@@ -8,11 +8,11 @@
     "express.js",
     "express middleware"
   ],
-  "bugs": "https://github.com/Shopify/shopify-express/issues",
+  "bugs": "https://github.com/lleseg/shopify-express/issues",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Shopify/shopify-express.git"
+    "url": "https://github.com/lleseg/shopify-express.git"
   },
   "engines": {
     "node": ">=12.13.0"
